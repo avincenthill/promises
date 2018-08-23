@@ -6,11 +6,14 @@ describe('Promise constructor', function() {
   var promiseConstructor = require('../../exercises/bare_minimum/promiseConstructor.js');
 
   describe('pluckFirstLineFromFileAsync', function() {
-    var pluckFirstLineFromFileAsync = promiseConstructor.pluckFirstLineFromFileAsync;
+    var pluckFirstLineFromFileAsync =
+      promiseConstructor.pluckFirstLineFromFileAsync;
 
     it('should return a promise', function() {
       // Must return a Bluebird promise. ES6 promise won't work here
-      expect(pluckFirstLineFromFileAsync(__dirname + '/../files/file_to_read.txt')).to.be.an.instanceOf(Promise);
+      expect(
+        pluckFirstLineFromFileAsync(__dirname + '/../files/file_to_read.txt')
+      ).to.be.an.instanceOf(Promise);
     });
 
     it('should resolve to a string', function(done) {
@@ -32,13 +35,13 @@ describe('Promise constructor', function() {
     });
 
     it('should make any errors available in the `catch` block', function(done) {
-      pluckFirstLineFromFileAsync(__dirname + '/../files/nonexistent_file.txt')
-        .catch(function(err) {
-          expect(err.code).to.equal('ENOENT');
-          done();
-        });
+      pluckFirstLineFromFileAsync(
+        __dirname + '/../files/nonexistent_file.txt'
+      ).catch(function(err) {
+        expect(err.code).to.equal('ENOENT');
+        done();
+      });
     });
-
   });
 
   describe('getStatusCodeAsync', function() {
@@ -56,7 +59,9 @@ describe('Promise constructor', function() {
       google.get('/').reply(200);
 
       // Must return a Bluebird promise. ES6 promise won't work here
-      expect(getStatusCodeAsync('https://google.com')).to.be.an.instanceOf(Promise);
+      expect(getStatusCodeAsync('https://google.com')).to.be.an.instanceOf(
+        Promise
+      );
     });
 
     it('should resolve to a number', function(done) {
@@ -84,18 +89,15 @@ describe('Promise constructor', function() {
     it('should make any errors available in the `catch` block', function(done) {
       someNonExistantWebsite.get('/').reply(404);
 
-      getStatusCodeAsync('https::///thisIsNoUrl.comedy')
-        .catch(function(err) {
-          expect(err.message).to.contain('Invalid URI');
-          done();
-        });
+      getStatusCodeAsync('https::///thisIsNoUrl.comedy').catch(function(err) {
+        expect(err.message).to.contain('Invalid URI');
+        done();
+      });
     });
 
     // Restore HTTP requests to their normal unmocked behavior
     after(function() {
       nock.cleanAll();
     });
-
   });
-
 });
