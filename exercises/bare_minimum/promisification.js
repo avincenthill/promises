@@ -58,7 +58,7 @@ var readFileAndMakeItFunny = function(filePath, callback) {
       })
       .join('\n');
 
-    callback(null, funnyFile);
+    callback(null, funnyFile); // Look these over
   });
 };
 
